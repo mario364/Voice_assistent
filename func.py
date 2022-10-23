@@ -1,6 +1,7 @@
 import os
 import webbrowser
 import pyttsx3
+from playsound import playsound
 
 
 events = ['Создать папку', "Удалить папку", "Открыть запрос в интернет",
@@ -39,6 +40,11 @@ def do_list():
         if action == 3:
             browser_open()
             continue
+
+        if action == 4:
+            music_play()
+            continue
+
 
         if action == 5:
             programm_open()
@@ -88,4 +94,13 @@ def programm_open():
         os.startfile(dict_start_program['Telegram'])
     if key_word == 'image':
         os.startfile(dict_start_program['image'])
+
+
+def music_play():
+    engine.say('Какой файл вы хотите прослушать?')
+    engine.runAndWait()
+    music1 = input('Укажите путь: ')
+    playsound(music1)
+
+
 

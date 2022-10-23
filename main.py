@@ -2,7 +2,7 @@ import os
 import pyttsx3
 from func import *
 
-events = ['Создать папку', "Удалить папку", "Создать текстовый файл", "Переминовать файл"]
+
 
 engine = pyttsx3.init()
 
@@ -11,8 +11,8 @@ engine.setProperty('rate', 150)
 engine.setProperty('voice', ru_voice_id)
 
 
-say_hello()
-get_action()
+#say_hello()
+do_list()
 
 
 

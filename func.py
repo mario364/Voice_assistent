@@ -1,8 +1,13 @@
 import os
-
+import webbrowser
 import pyttsx3
 
-events = ['Создать папку', "Удалить папку", "Создать текстовый файл", "Переминовать файл"]
+
+events = ['Создать папку', "Удалить папку", "Открыть запрос в интернет",
+          "Воспроизвести музыку с компьютера", 'Открыть программу с устройства']
+
+dict_start_program = {'Telegram': 'C:\Programs\Telegram Desktop\Telegram.exe', 'image': '"C:\Programs\FastStone Image Viewer\FSViewer.exe"'}
+
 
 engine = pyttsx3.init()
 
@@ -12,45 +17,75 @@ engine.setProperty('voice', ru_voice_id)
 
 
 def say_hello():
-    engine.say('Здравствуйте, пользователь! Меня зовут Полина, я ваш ассистент.')
-    engine.say(f'Вот что я могу: {events}')
+    engine.say('Здравствуйте, пользователь! Меня зовут Поля, я ваш ассистент.')
     engine.say('Что вы хотите сделать?')
     engine.runAndWait()
 
 
-def get_action():
+def do_list():
     while True:
         for num, event in enumerate(events, 1):
             print(num, event)
         action = int(input('Что вы хотите сделать? '))
 
         if action == 1:
-            engine.say('Где вы хотите создать папку?')
-            engine.runAndWait()
-            direction = input('Путь к папке: ')
-            if not os.path.isdir(direction):
-                engine.say('Папка создана.')
-                engine.runAndWait()
-                os.mkdir(direction)
-                continue
-            else:
-                engine.say('Папка уже существует.')
-                engine.runAndWait()
-                continue
+            folder_create()
+            continue
 
         if action == 2:
-            engine.say('Какую папку вы хотите удалить?')
-            engine.runAndWait()
-            del_direction = input('Путь к папке: ')
-            if os.path.isdir(del_direction):
-                engine.say('Папка удалена')
-                engine.runAndWait()
-                os.rmdir(del_direction)
-                continue
-            else:
-                engine.say('Такой папки нет')
-                engine.runAndWait()
-                continue
+            folder_del()
+            continue
+
+        if action == 3:
+            browser_open()
+            continue
+
+        if action == 5:
+            programm_open()
+            continue
 
 
+
+def folder_create():
+    engine.say('Где вы хотите создать папку?')
+    engine.runAndWait()
+    create_directory = input('Путь к папке: ')
+    if not os.path.isdir(create_directory):
+        engine.say('Папка создана.')
+        engine.runAndWait()
+        os.mkdir(create_directory)
+
+    else:
+        engine.say('Папка уже существует.')
+        engine.runAndWait()
+
+
+def folder_del():
+    engine.say('Какую папку вы хотите удалить?')
+    engine.runAndWait()
+    del_directory = input('Путь к папке: ')
+    if os.path.isdir(del_directory):
+        engine.say('Папка удалена')
+        engine.runAndWait()
+        os.rmdir(del_directory)
+
+    else:
+        engine.say('Такой папки нет')
+        engine.runAndWait()
+
+
+def browser_open():
+    engine.say('Введите адрес запроса: ')
+    engine.runAndWait()
+    ask = input('Введите запрос: ')
+    webbrowser.open(ask, new=2)
+
+def programm_open():
+    engine.say('Какую программу вы хотите запустить?')
+    engine.runAndWait()
+    key_word = input('Введите ключевое слово: ')
+    if key_word == 'Telegram':
+        os.startfile(dict_start_program['Telegram'])
+    if key_word == 'image':
+        os.startfile(dict_start_program['image'])
 
